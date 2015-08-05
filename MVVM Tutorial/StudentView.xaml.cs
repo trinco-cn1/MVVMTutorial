@@ -25,10 +25,12 @@ namespace MvvmTutorial
         #region Event Handlers
         private void OKButton_Click(object sender, RoutedEventArgs e)
         {
-            this.BindingGroup.CommitEdit();
-            StudentVM.Save();
-            this.DialogResult = true;
-            this.Close();
+            if (BindingGroup.CommitEdit())
+            {
+                StudentVM.Save();
+                this.DialogResult = true;
+                this.Close();
+            }
         }
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {

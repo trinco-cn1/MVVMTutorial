@@ -1,6 +1,7 @@
 ﻿<Window x:Class="MvvmTutorial.StudentView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:MVVMTutorial"
         Title="StudentView" Height="300" Width="300">
     <Window.BindingGroup>
         <BindingGroup />
@@ -24,7 +25,13 @@
         <Label Content="Gender:" VerticalAlignment="Center" Grid.Row="2" />
         <ComboBox ItemsSource="{Binding GenderOptions, Mode=OneTime}" SelectedValuePath="ValueMember" DisplayMemberPath="DisplayMember" SelectedValue="{Binding Gender, Mode=TwoWay}" 
                   Grid.Column="1" Grid.Row="2" Height="23" />
-        <TextBox Text="{Binding Age, Mode=TwoWay, UpdateSourceTrigger=Explicit}" Grid.Column="1" Grid.Row="1" Height="23" />
+        <TextBox Name="tbAge" Grid.Column="1" Grid.Row="1" Height="23" ToolTip="{Binding ElementName=tbAge,Path=(Validation.Errors)[0].ErrorContent}">
+            <Binding Path="Age" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" NotifyOnSourceUpdated="True">
+                <Binding.ValidationRules>
+                    <local:NumberRangeRule Max="128" Min="10"/>
+                </Binding.ValidationRules>
+            </Binding>
+        </TextBox>
         <Label Content="Description:" VerticalAlignment="Center" Grid.Row="3" />
         <TextBox Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=Explicit}" Grid.Column="1" Grid.Row="3" VerticalAlignment="Stretch" AcceptsReturn="True" TextWrapping="Wrap"
                  HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" />
